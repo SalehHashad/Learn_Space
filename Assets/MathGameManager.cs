@@ -3,15 +3,20 @@ using TMPro; // Make sure to include this namespace for TextMeshPro
 
 public class MathGameManager : MonoBehaviour
 {
+    public Canvas MathProblemButtons;
+    public Canvas GameManageButtons;
+    public EProblem eProblem;
 
+    public MathProblemBTN problemBTN;
     public BoxSpawner boxSpawner;
     public TextMeshProUGUI questionTextUI;
     public TextMeshProUGUI timerTextUI;
+    public TextMeshProUGUI ScoreIndexTMP ;
     public TextMeshProUGUI gameOverTextUI; // UI element for the game over message
 
-    private float gameDuration = 20f;
+    public float gameDuration = 20f;
     private float timer;
-    private bool gameStarted = false;
+    public bool gameStarted = false;
 
     public AudioClip correctAnswerClip;
     public AudioClip wrongAnswerClip;
@@ -38,15 +43,11 @@ public class MathGameManager : MonoBehaviour
         }
     }
 
-    private int answer;
+    private float answer;
 
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return) && !gameStarted)
-        {
-            StartGame();
-        }
 
         if (gameStarted && timer > 0)
         {
@@ -59,23 +60,98 @@ public class MathGameManager : MonoBehaviour
         }
     }
 
-    void StartGame()
+    public void StartGame()
     {
-
         timer = gameDuration;
         gameStarted = true;
-        GenerateMathProblem(); // Start the first math problem
-        gameOverTextUI.text = ""; // Clear the game over text
+
+        if (MathProblemButtons != null)
+            MathProblemButtons.gameObject.SetActive(false);
+        else
+            Debug.LogError("MathProblemButtons is not assigned!");
+
+        if (eProblem == EProblem.Addition)
+        {
+            if (ScoreIndexTMP != null)
+                GenerateAdditionMathProblem(-int.Parse(ScoreIndexTMP.text));
+            else
+                Debug.LogError("ScoreIndexTMP is not assigned!");
+        }
+        else if (eProblem == EProblem.Subtraction)
+        {
+            if (ScoreIndexTMP != null)
+                GenerateSubtractionMathProblem(-int.Parse(ScoreIndexTMP.text));
+            else
+                Debug.LogError("ScoreIndexTMP is not assigned!");
+        }
+        else if (eProblem == EProblem.Multiplication)
+        {
+            if (ScoreIndexTMP != null)
+                GenerateMultiplicationMathProblem(-int.Parse(ScoreIndexTMP.text));
+            else
+                Debug.LogError("ScoreIndexTMP is not assigned!");
+        }else if (eProblem == EProblem.Divition)
+        {
+            if (ScoreIndexTMP != null)
+                GenerateDivitionMathProblem(-int.Parse(ScoreIndexTMP.text));
+            else
+                Debug.LogError("ScoreIndexTMP is not assigned!");
+        }
+
+        if (GameManageButtons != null)
+            GameManageButtons.gameObject.SetActive(true);
+        else
+            Debug.LogError("GameManageButtons is not assigned!");
+
+        if (gameOverTextUI != null)
+            gameOverTextUI.text = "";
+        else
+            Debug.LogError("gameOverTextUI is not assigned!");
     }
 
-    public void GenerateMathProblem()
+
+    public void GenerateAdditionMathProblem(int score)
     {
-        Debug.Log("hello");
+        Debug.Log("hello - Addition");
         int a = Random.Range(1, 10);
         int b = Random.Range(1, 10);
         answer = a + b;
 
         questionTextUI.text = $"{a} + {b}";
+        ScoreIndexTMP.text = $"{int.Parse(ScoreIndexTMP.text) + score}";
+        boxSpawner.SpawnBoxes(answer); // Updated to SpawnBoxes
+    }
+    public void GenerateSubtractionMathProblem(int score)
+    {
+        Debug.Log("hello - Subtraction");
+        int a = Random.Range(1, 10);
+        int b = Random.Range(1, 10);
+        answer = a - b;
+
+        questionTextUI.text = $"{a} - {b}";
+        ScoreIndexTMP.text = $"{int.Parse(ScoreIndexTMP.text) + score}";
+        boxSpawner.SpawnBoxes(answer); // Updated to SpawnBoxes
+    }
+    public void GenerateMultiplicationMathProblem(int score)
+    {
+        Debug.Log("hello - Multiplication");
+        int a = Random.Range(1, 10);
+        int b = Random.Range(1, 10);
+        answer = a * b;
+
+        questionTextUI.text = $"{a} * {b}";
+        ScoreIndexTMP.text = $"{int.Parse(ScoreIndexTMP.text) + score}";
+        boxSpawner.SpawnBoxes(answer); // Updated to SpawnBoxes
+    }
+    public void GenerateDivitionMathProblem(int score)
+    {
+        Debug.Log("hello - Divition");
+        float a = Random.Range(1, 10);
+        float b = Random.Range(1, 10);
+        answer = a / b;
+
+        questionTextUI.text = $"{a} / {b}";
+        ScoreIndexTMP.text = $"{int.Parse(ScoreIndexTMP.text) + score}";
         boxSpawner.SpawnBoxes(answer); // Updated to SpawnBoxes
     }
 
@@ -83,6 +159,11 @@ public class MathGameManager : MonoBehaviour
     {
         gameStarted = false;
         gameOverTextUI.text = "Game Over!";
+        MathProblemButtons.gameObject.SetActive(true);
+        foreach(ObjectAnswers objectAnswers in FindObjectsOfType<ObjectAnswers>())
+        {
+            Destroy(objectAnswers.gameObject);
+        }
         // Additional end-of-game logic can be added here
     }
 

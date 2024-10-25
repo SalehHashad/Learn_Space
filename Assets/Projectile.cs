@@ -10,6 +10,7 @@ public class Projectile : MonoBehaviour
         gameManager = MathGameManager.GetInstance();
     }
 
+
     void OnCollisionEnter(Collision collision)
     {
         bool isCorrect = collision.gameObject.CompareTag("CorrectAnswer");
@@ -23,7 +24,15 @@ public class Projectile : MonoBehaviour
         if (isCorrect)
         {
             gameManager.PlayCorrectAnswerSound();
-            gameManager.GenerateMathProblem();
+
+            if (gameManager.eProblem == EProblem.Addition)
+                gameManager.GenerateAdditionMathProblem(1);
+            else if (gameManager.eProblem == EProblem.Subtraction)
+                gameManager.GenerateSubtractionMathProblem(1);
+            else if (gameManager.eProblem == EProblem.Multiplication)
+                gameManager.GenerateMultiplicationMathProblem(1);
+            else if (gameManager.eProblem == EProblem.Divition)
+                gameManager.GenerateDivitionMathProblem(1);
         }
         else if (collision.gameObject.CompareTag("WrongAnswer"))
         {

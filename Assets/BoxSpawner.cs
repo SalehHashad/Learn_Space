@@ -32,6 +32,27 @@ public class BoxSpawner : MonoBehaviour
             SpawnBoxAtPosition(answer, position, isCorrectAnswer);
         }
     }
+    public void SpawnBoxes(float correctAnswer)
+    {
+        ClearBoxes();
+
+        float correctBoxIndex = Random.Range(0, numberOfBoxes);
+
+        for (int i = 0; i < numberOfBoxes; i++)
+        {
+            Vector3 position;
+            bool isCorrectAnswer = (i == correctBoxIndex);
+            float answer = isCorrectAnswer ? correctAnswer : GetRandomWrongAnswer(correctAnswer);
+
+            do
+            {
+                position = GetRandomPositionNear(spawnPosition);
+            }
+            while (IsPositionTooClose(position));
+
+            SpawnBoxAtPosition(answer, position, isCorrectAnswer);
+        }
+    }
 
     private bool IsPositionTooClose(Vector3 position)
     {
@@ -59,9 +80,32 @@ public class BoxSpawner : MonoBehaviour
         }
         while (wrongAnswer == correctAnswer);
         return wrongAnswer;
+    }private float GetRandomWrongAnswer(float correctAnswer)
+    {
+        float wrongAnswer;
+        do
+        {
+            wrongAnswer = Random.Range(1, 20); // Adjust range as needed
+        }
+        while (wrongAnswer == correctAnswer);
+        return wrongAnswer;
     }
 
     void SpawnBoxAtPosition(int number, Vector3 position, bool isCorrectAnswer)
+    {
+        GameObject box = Instantiate(boxPrefab, position, Quaternion.identity);
+        spawnedBoxes.Add(box);
+
+        TextMeshProUGUI tmp = box.GetComponentInChildren<TextMeshProUGUI>();
+        if (tmp != null)
+        {
+            tmp.text = number.ToString();
+        }
+
+        // Assign the appropriate tag
+        box.tag = isCorrectAnswer ? "CorrectAnswer" : "WrongAnswer";
+    }
+    void SpawnBoxAtPosition(float number, Vector3 position, bool isCorrectAnswer)
     {
         GameObject box = Instantiate(boxPrefab, position, Quaternion.identity);
         spawnedBoxes.Add(box);
