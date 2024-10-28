@@ -13,7 +13,8 @@ public class ObjectAnswers : MonoBehaviour
         btn.onClick.AddListener(OnButtonClicked);
         gameManager = MathGameManager.GetInstance();
     }
-    void OnButtonClicked()
+
+    public void OnButtonClicked()
     {
         bool isCorrect = this.gameObject.CompareTag("CorrectAnswer");
 

@@ -248,6 +248,7 @@ namespace BNG {
         protected bool readyToShoot = true;
 
         void Start() {
+
             weaponRigid = GetComponent<Rigidbody>();
 
             if (MuzzleFlashObject) {
@@ -395,6 +396,12 @@ namespace BNG {
                 RaycastHit hit;
                 if (Physics.Raycast(MuzzlePointTransform.position, MuzzlePointTransform.forward, out hit, MaxRange, ValidLayers, QueryTriggerInteraction.Ignore)) {
                     OnRaycastHit(hit);
+                    ObjectAnswers objectAnswers = hit.collider.GetComponent<ObjectAnswers>();
+                    if (objectAnswers)
+                    {
+                        objectAnswers.OnButtonClicked();
+                        print("ObjectAnswers"); 
+                    }
                 }
             }
 

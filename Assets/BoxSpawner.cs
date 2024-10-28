@@ -80,7 +80,8 @@ public class BoxSpawner : MonoBehaviour
         }
         while (wrongAnswer == correctAnswer);
         return wrongAnswer;
-    }private float GetRandomWrongAnswer(float correctAnswer)
+    }
+    private float GetRandomWrongAnswer(float correctAnswer)
     {
         float wrongAnswer;
         do

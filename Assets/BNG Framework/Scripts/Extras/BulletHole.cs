@@ -18,7 +18,7 @@ namespace BNG {
         public float DestroyTime = 10f;
 
         // Start is called before the first frame update
-        void Start() {
+        protected virtual void Start() {
             transform.localScale = Vector3.one * Random.Range(0.75f, 1.5f);
 
             if (BulletHoleDecal != null && RandomYRotation) {
