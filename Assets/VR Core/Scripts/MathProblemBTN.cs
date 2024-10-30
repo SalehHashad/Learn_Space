@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public enum EProblem { Addition , Subtraction , Multiplication , Divition }
+public enum EProblem { Addition , Subtraction , Multiplication , Divition , Images}
 public class MathProblemBTN : MonoBehaviour
 {
     [SerializeField] EProblem problem;

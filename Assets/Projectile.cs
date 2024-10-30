@@ -33,6 +33,8 @@ public class Projectile : MonoBehaviour
                 gameManager.GenerateMultiplicationMathProblem(1);
             else if (gameManager.eProblem == EProblem.Divition)
                 gameManager.GenerateDivitionMathProblem(1);
+            else if (gameManager.eProblem == EProblem.Images)
+                gameManager.GenerateImagesMathProblem(1);
         }
         else if (collision.gameObject.CompareTag("WrongAnswer"))
         {
