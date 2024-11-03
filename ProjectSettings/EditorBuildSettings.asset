@@ -27,7 +27,7 @@ EditorBuildSettings:
     path: Assets/VR Core/Scenes/Intro Scene.unity
     guid: 1a9067cdb4e2c3946925a39e41402888
   m_configObjects:
-    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 95738646979e66347937d1a88ead7f33,
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 925777f9b296627449396fa46f1df0fd,
       type: 2}
     Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: 2ec24d39f7b5ac84aad7e5df7b4fd3ea,
       type: 2}
